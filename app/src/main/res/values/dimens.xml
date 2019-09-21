@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--this is my dimes -->
+    <dimen name="dimes_1dp">1dp</dimen>
+    <dimen name="dimes_2dp">2dp</dimen>
+    <dimen name="dimes_5dp">5dp</dimen>
+    <dimen name="dimes_8dp">8dp</dimen>
+    <dimen name="dimes_10dp">10dp</dimen>
+    <dimen name="dimes_16dp">16dp</dimen>
+    <dimen name="dimes_18dp">18dp</dimen>
+    <dimen name="dimes_20dp">20dp</dimen>
+    <dimen name="dimes_25dp">25dp</dimen>
+    <dimen name="dimes_30dp">30dp</dimen>
+    <dimen name="dimes_32dp">32dp</dimen>
+    <dimen name="dimes_35dp">35dp</dimen>
+    <dimen name="dimes_48dp">48dp</dimen>
+    <dimen name="dimes_40dp">40dp</dimen>
+    <dimen name="dimes_12dp">12dp</dimen>
+    <dimen name="dimes_50dp">50dp</dimen>
+    <dimen name="dimes_55dp">55dp</dimen>
+    <dimen name="dimes_60dp">60dp</dimen>
+    <dimen name="dimes_70dp">70dp</dimen>
+    <dimen name="dimes_75dp">75dp</dimen>
+    <dimen name="dimes_100dp">100dp</dimen>
+    <dimen name="dimes_130dp">120dp</dimen>
+    <dimen name="dimes_128dp">128dp</dimen>
+    <dimen name="dimes_150dp">150dp</dimen>
+    <dimen name="dimes_160dp">160dp</dimen>
+    <dimen name="dimes_180dp">180dp</dimen>
+    <dimen name="dimes_200dp">200dp</dimen>
+    <dimen name="dimes_250dp">250dp</dimen>
+    <dimen name="dimes_270dp">270dp</dimen>
+    <dimen name="dimes_300dp">300dp</dimen>
+    <dimen name="dimes_350dp">350dp</dimen>
+    <dimen name="dimes_400dp">400dp</dimen>
+    <dimen name="dimes_500dp">500dp</dimen>
+
+    <dimen name="dimes_6sp">6sp</dimen>
+    <dimen name="dimes_8sp">8sp</dimen>
+    <dimen name="dimes_12sp">12sp</dimen>
+    <dimen name="dimes_13sp">13sp</dimen>
+    <dimen name="dimes_15sp">15sp</dimen>
+    <dimen name="dimes_32sp">32sp</dimen>
+    <dimen name="dimes_20sp">20sp</dimen>
+    <dimen name="dimes_25sp">25sp</dimen>
+    <dimen name="dimes_16sp">16sp</dimen>
+    <dimen name="dimes_36sp">36sp</dimen>
+    <dimen name="dimes_40sp">40sp</dimen>
+    <dimen name="dimes_46sp">46sp</dimen>
+    <dimen name="dimes_13dp">13dp</dimen>
+    <dimen name="dimes_24dp">24dp</dimen>
+    <dimen name="design_fab_image_size" tools:override="true">56dp</dimen>
+    <dimen name="dimes_78dp">78dp</dimen>
+
+    <dimen name="seek_bar_thickness">10dp</dimen>
+    <dimen name="seek_bar_thumb_size">30dp</dimen>
+
+
+</resources>

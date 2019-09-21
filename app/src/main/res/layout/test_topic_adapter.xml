@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/quiz_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardOne"
+            android:layout_width="@dimen/dimes_70dp"
+            android:layout_height="@dimen/dimes_70dp"
+            android:layout_marginStart="@dimen/dimes_5dp"
+            android:layout_marginTop="@dimen/dimes_10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/dimes_5dp"
+            app:cardElevation="@dimen/dimes_10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/topic"
+                    android:layout_width="@dimen/dimes_50dp"
+                    android:layout_height="@dimen/dimes_50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimes_16dp"
+            android:layout_marginTop="@dimen/dimes_10dp"
+            android:textColor="@color/dark_orange"
+            android:textSize="@dimen/dimes_15sp"
+            app:layout_constraintEnd_toStartOf="@+id/actv_total_quantity"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/cardOne"
+            app:layout_constraintTop_toTopOf="@+id/cardOne" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actv_total_quantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimes_10dp"
+            android:text="Time 5 min"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimes_15sp"
+            app:layout_constraintEnd_toStartOf="@+id/aciv_forward"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/actv_name"
+            app:layout_constraintTop_toTopOf="@+id/cardOne" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actv_date_one"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimes_20dp"
+            android:layout_marginTop="@dimen/dimes_10dp"
+            android:text="Ques 1"
+            android:textSize="@dimen/dimes_15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardOne"
+            app:layout_constraintEnd_toStartOf="@+id/actv_to"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/cardOne"
+            app:layout_constraintTop_toTopOf="@+id/actv_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actv_to"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimes_10dp"
+            android:text="to"
+            android:textAlignment="center"
+            android:textColor="@color/dark_orange"
+            android:textSize="@dimen/dimes_15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/cardOne"
+            app:layout_constraintEnd_toStartOf="@+id/actv_date_two"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toEndOf="@+id/actv_date_one"
+            app:layout_constraintTop_toTopOf="@+id/actv_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actv_date_two"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimes_10dp"
+            android:layout_marginEnd="@dimen/dimes_16dp"
+            android:text="Ques 10"
+            android:textAlignment="textEnd"
+            android:textSize="@dimen/dimes_15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardOne"
+            app:layout_constraintEnd_toStartOf="@+id/aciv_forward"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/actv_to"
+            app:layout_constraintTop_toTopOf="@+id/actv_name" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aciv_forward"
+            android:layout_width="@dimen/dimes_30dp"
+            android:layout_height="@dimen/dimes_30dp"
+            android:layout_margin="@dimen/dimes_16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/actv_date_two"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/actv_total_quantity"
+            app:layout_constraintTop_toTopOf="@+id/actv_name"
+            app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+        <View
+            android:id="@+id/view_one"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimes_1dp"
+            android:layout_marginStart="95dp"
+            android:layout_marginEnd="@dimen/dimes_16dp"
+            android:background="@color/aqua"
+            app:layout_constraintTop_toBottomOf="@+id/cardOne" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
