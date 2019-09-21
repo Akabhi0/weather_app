@@ -4,12 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="dark_orange">#FA6400</color>
-    <color name="light_orange">#eda356</color>
+    <color name="background">#3C5A98</color>
     <color name="white">#ffffff</color>
-    <color name="dark_green">#005a48</color>
-    <color name="light_green">#009e3d</color>
-    <color name="grey">#ababab</color>
-    <color name="black">#000</color>
-    <color name="aqua">#80deea</color>
+    <color name="grey">#444444</color>
 </resources>

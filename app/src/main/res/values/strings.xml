@@ -1,22 +1,4 @@
 <resources>
-    <string name="app_name">TaskAssignment</string>
-    <string name="mobile_hint">Enter mobile number</string>
-    <string name="login_hint">Login</string>
-    <string name="new_user">Register</string>
-    <string name="email">Email</string>
-    <string name="enter_email">Enter email</string>
-    <string name="name">Name</string>
-    <string name="enter_name">Enter name</string>
-    <string name="mobile">Mobile</string>
-    <string name="address">Address</string>
-    <string name="register">Register</string>
-    <string name="register_title">User Registration</string>
-    <string name="enter_address">Enter address</string>
-    <string name="cancel">Cancel</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="Question">Question</string>
-    <string name="submit">Submit</string>
-    <string name="skip">skip</string>
-    <string name="next">Next</string>
-    <string name="question">Questions</string>
+    <string name="app_name">task</string>
+    <string name="network_message">Please check the network</string>
 </resources>
