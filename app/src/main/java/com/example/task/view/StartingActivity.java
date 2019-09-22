@@ -22,6 +22,7 @@ public class StartingActivity extends AppCompatActivity {
     private ActivityStartingBinding binding;
     private AddressFragment addressFragment;
     private CheckDataViewModel checkDataViewModel;
+    private boolean checkSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +30,30 @@ public class StartingActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_starting);
 
         checkDataViewModel = ViewModelProviders.of(this).get(CheckDataViewModel.class);
-        checkDataViewModel.getWeatherTableLiveData(getApplication()).observe(this, new Observer<List<WeatherTable>>() {
+        checkDataViewModel.getWeatherTableLiveData(this).observe(this, new Observer<List<WeatherTable>>() {
             @Override
             public void onChanged(List<WeatherTable> weatherTables) {
                 switch (weatherTables.size()) {
                     case 0:
-                        addressFragment = new AddressFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putInt(Constant.INTENT_STARTING_SCREEN, Constant.INTENT_STARTING_SCREEN_VALUE);
-                        addressFragment.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, addressFragment).commit();
+                        checkSet = true;
                         break;
                     default:
-                        Intent intent = new Intent(StartingActivity.this, ClimateShowActivity.class);
-                        intent.putExtra(Constant.INTENT_CLIMATE_START_SCREEN, Constant.INTENT_CLIMATE_START_SCREEN_VALUE);
-                        startActivity(intent);
+                        checkSet = false;
+                        break;
                 }
             }
         });
+
+        if (!checkSet) {
+            addressFragment = new AddressFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constant.INTENT_STARTING_SCREEN, Constant.INTENT_STARTING_SCREEN_VALUE);
+            addressFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, addressFragment).commit();
+        } else {
+            Intent intent = new Intent(StartingActivity.this, ClimateShowActivity.class);
+            intent.putExtra(Constant.INTENT_CLIMATE_START_SCREEN, Constant.INTENT_CLIMATE_START_SCREEN_VALUE);
+            startActivity(intent);
+        }
     }
 }

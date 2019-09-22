@@ -19,6 +19,6 @@ public interface DataAsscessObjects {
     @Update
     void updateWeather(WeatherTable weatherTable);
 
-    @Query("SELECT * FROM weatherTables ORDER BY id DESC")
+    @Query("SELECT * FROM WeatherTable ORDER BY id DESC")
     LiveData<List<WeatherTable>> getAllWeatherData();
 }

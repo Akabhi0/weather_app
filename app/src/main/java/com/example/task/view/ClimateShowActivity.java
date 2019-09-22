@@ -5,14 +5,17 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.example.task.BasicUtality.BasicFunction;
 import com.example.task.BasicUtality.Constant;
 import com.example.task.R;
+import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.databinding.ActivityClimateShowBinding;
 import com.example.task.model.ForeCasteMain;
 import com.example.task.model.WeatherMain;
+import com.example.task.viewModel.ClimateViewModel;
 
 public class ClimateShowActivity extends AppCompatActivity {
 
@@ -50,7 +53,16 @@ public class ClimateShowActivity extends AppCompatActivity {
                     .placeholder(R.drawable.ic_cloud_computing).
                     into(binding.acivWeatherIcon);
 
+            WeatherTable weatherTable = new WeatherTable();
+            weatherTable.setDiscriptions(weatherMain.getWeatherModels().get(0).getDescription());
+            weatherTable.setIcon(weatherMain.getWeatherModels().get(0).getIcon());
+            weatherTable.setCity(weatherMain.getName());
+            weatherTable.setTemp(weatherMain.getWeatherClimateModel().getTemp());
+            weatherTable.setMaxtemp(weatherMain.getWeatherClimateModel().getTempMax());
+            weatherTable.setMintemp(weatherMain.getWeatherClimateModel().getTempMin());
 
+            ClimateViewModel viewModel = ViewModelProviders.of(this).get(ClimateViewModel.class);
+            viewModel.insertWeatherData(weatherTable, this);
 
 
         } else if (START_VALUE == Constant.INTENT_CLIMATE_START_SCREEN_VALUE) {

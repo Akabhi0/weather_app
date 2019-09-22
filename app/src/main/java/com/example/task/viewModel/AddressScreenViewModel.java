@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.task.model.ForeCasteMain;
 import com.example.task.model.Places;
 import com.example.task.model.WeatherMain;
-import com.example.task.repository.Repository;
+import com.example.task.repository.RepositoryAPI;
 
 public class AddressScreenViewModel extends ViewModel {
 
@@ -51,7 +51,7 @@ public class AddressScreenViewModel extends ViewModel {
     }
 
     public void getweather(String places) {
-        weatherModelMutableLiveData = Repository.getRepository().getWeatherData(places);
+        weatherModelMutableLiveData = RepositoryAPI.getRepositoryAPI().getWeatherData(places);
     }
 
     public MutableLiveData<ForeCasteMain> getForcasteData() {
@@ -64,7 +64,7 @@ public class AddressScreenViewModel extends ViewModel {
      * @return
      */
     public void getForecaste(String places) {
-        foreCasteMutableLiveData = Repository.getRepository().getForecasteData(places);
+        foreCasteMutableLiveData = RepositoryAPI.getRepositoryAPI().getForecasteData(places);
     }
 }
 
