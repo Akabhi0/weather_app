@@ -3,31 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="places"
-            type="com.example.task.model.Places" />
-
-        <variable
-            name="viewModel"
-            type="com.example.task.viewModel.AddressScreenViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
         tools:context=".view.AddressScreenActivity">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/aciv_backword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:padding="16dp"
-            android:src="@drawable/backword"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/acet_place"
@@ -45,6 +25,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aciv_backword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:padding="16dp"
+            android:src="@drawable/backword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/aciv_forward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,4 +48,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="places"
+            type="com.example.task.model.Places" />
+
+        <variable
+            name="viewModel"
+            type="com.example.task.viewModel.AddressScreenViewModel" />
+    </data>
 </layout>

@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+
     defaultConfig {
         applicationId "com.example.task"
         minSdkVersion 18
@@ -22,7 +23,7 @@ android {
 }
 
 dependencies {
-    def room_version = "2.2.0-rc01"
+    def room_version = "2.1.0-alpha04"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'
@@ -38,6 +39,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //this is for enabling the MVVM and Livedate
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'

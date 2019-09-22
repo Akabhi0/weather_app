@@ -19,29 +19,43 @@ public class ClimateShowActivity extends AppCompatActivity {
     private ActivityClimateShowBinding binding;
     private ForeCasteMain foreCasteMain;
     private WeatherMain weatherMain;
+    private int ADDRESS_VALUE, START_VALUE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_climate_show);
         Intent intent = getIntent();
-        foreCasteMain = (ForeCasteMain) intent.getSerializableExtra(Constant.ADDRESS_TO_CLIMATE_FORECAST_KEY);
-        weatherMain = (WeatherMain) intent.getSerializableExtra(Constant.ADDRESS_TO_CLIMATE_WEATHER_KEY);
+        ADDRESS_VALUE = intent.getIntExtra(Constant.INTENT_CLIMATE_ADDRESS_SCREEN, 0);
+        START_VALUE = intent.getIntExtra(Constant.INTENT_CLIMATE_START_SCREEN, 0);
+        START_VALUE = intent.getIntExtra(Constant.INTENT_CLIMATE_START_SCREEN, 0);
 
-        binding.setForecastModel(foreCasteMain);
-        binding.setWeatherModel(weatherMain);
-        binding.setTemp(String.format(Constant.STRING_FORMATE,
-                BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTemp())) + (char) 0x00B0);
+        if (ADDRESS_VALUE == Constant.INTENT_CLIMATE_ADDRESS_SCREEN_VALUE) {
+            foreCasteMain = (ForeCasteMain) intent.getSerializableExtra(Constant.ADDRESS_TO_CLIMATE_FORECAST_KEY);
+            weatherMain = (WeatherMain) intent.getSerializableExtra(Constant.ADDRESS_TO_CLIMATE_WEATHER_KEY);
 
-        binding.setTempMin(String.format(Constant.STRING_FORMATE,
-                BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMin())) + (char) 0x00B0);
+            binding.setForecastModel(foreCasteMain);
+            binding.setWeatherModel(weatherMain);
+            binding.setTemp(String.format(Constant.STRING_FORMATE,
+                    BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTemp())) + (char) 0x00B0);
 
-        binding.setTempMax(String.format(Constant.STRING_FORMATE,
-                BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMax())) + (char) 0x00B0);
+            binding.setTempMin(String.format(Constant.STRING_FORMATE,
+                    BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMin())) + (char) 0x00B0);
 
-        Glide.with(this)
-                .load(Constant.PIC + weatherMain.getWeatherModels().get(0).getIcon() + Constant.FORMATE)
-                .placeholder(R.drawable.ic_cloud_computing).
-                into(binding.acivWeatherIcon);
+            binding.setTempMax(String.format(Constant.STRING_FORMATE,
+                    BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMax())) + (char) 0x00B0);
+
+            Glide.with(this)
+                    .load(Constant.PIC + weatherMain.getWeatherModels().get(0).getIcon() + Constant.FORMATE)
+                    .placeholder(R.drawable.ic_cloud_computing).
+                    into(binding.acivWeatherIcon);
+
+
+
+
+        } else if (START_VALUE == Constant.INTENT_CLIMATE_START_SCREEN_VALUE) {
+
+
+        }
     }
 }
