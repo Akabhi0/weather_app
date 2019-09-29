@@ -1,6 +1,6 @@
 package com.example.task.repository;
 
-import android.content.Context;
+import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
@@ -13,20 +13,20 @@ import java.util.List;
 
 public class RepositortDataBase {
     public LiveData<List<WeatherTable>> listMutableLiveData;
-    private DataAsscessObjects databaseClimate;
+    private DataAsscessObjects dataAsscessObjects;
 
-    public RepositortDataBase(Context context) {
-        databaseClimate = DatabaseClimate.getInstance(context).getDataAsscessObjects();
-        listMutableLiveData = databaseClimate.getAllWeatherData();
+    public RepositortDataBase(Application application) {
+        dataAsscessObjects = DatabaseClimate.getInstance(application).getDataAsscessObjects();
+        listMutableLiveData = dataAsscessObjects.getAllWeatherData();
     }
 
     //========================DATABASE OPERATIONS===================================================
     public void IntsertData(WeatherTable weatherTable) {
-        new InsertWeatherAsyncTask(databaseClimate).execute(weatherTable);
+        new InsertWeatherAsyncTask(dataAsscessObjects).execute(weatherTable);
     }
 
     public void UpdateData(WeatherTable weatherTable) {
-        new UpdateWeatherAsyncTask(databaseClimate).execute(weatherTable);
+        new UpdateWeatherAsyncTask(dataAsscessObjects).execute(weatherTable);
     }
 
     //=======================ROOM DATABASE IS RUN ON BACKGROUND THREAD==============================

@@ -62,11 +62,10 @@ public class ClimateShowActivity extends AppCompatActivity {
             weatherTable.setMintemp(weatherMain.getWeatherClimateModel().getTempMin());
 
             ClimateViewModel viewModel = ViewModelProviders.of(this).get(ClimateViewModel.class);
-            viewModel.insertWeatherData(weatherTable, this);
+            viewModel.insertWeatherData(weatherTable, getApplication());
 
 
         } else if (START_VALUE == Constant.INTENT_CLIMATE_START_SCREEN_VALUE) {
-
 
         }
     }

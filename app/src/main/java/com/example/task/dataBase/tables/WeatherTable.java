@@ -3,7 +3,7 @@ package com.example.task.dataBase.tables;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "weatherTable")
 public class WeatherTable {
 
     @PrimaryKey(autoGenerate = true)
