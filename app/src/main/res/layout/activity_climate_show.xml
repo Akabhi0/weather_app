@@ -3,56 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="temp"
-            type="String" />
-
-
-        <variable
-            name="tempMin"
-            type="String" />
-
-
-        <variable
-            name="tempMax"
-            type="String" />
-
-
-        <variable
-            name="forecastModel"
-            type="com.example.task.model.ForeCasteMain" />
-
-        <variable
-            name="weatherModel"
-            type="com.example.task.model.WeatherMain" />
-
-        <variable
-            name="weather"
-            type="com.example.task.model.WeatherModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/back"
         tools:context=".view.MainActivity">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/actv_city"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="roboto"
-            android:text="@{weatherModel.name}"
-            android:textAlignment="textEnd"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            app:layout_constraintEnd_toStartOf="@+id/aciv_forward"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginEnd="32dp"
+            android:alpha="0.5"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/actv_desprition" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/aciv_forward"
@@ -77,6 +43,78 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/aciv_forward" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aciv_icon_mon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_cloud_computing"
+            app:layout_constraintEnd_toStartOf="@+id/aciv_icon_tue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aciv_icon_tue"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_cloud_computing"
+            app:layout_constraintEnd_toStartOf="@+id/aciv_icon_wes"
+            app:layout_constraintStart_toEndOf="@+id/aciv_icon_mon"
+            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aciv_icon_wes"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_cloud_computing"
+            app:layout_constraintEnd_toStartOf="@+id/aciv_icon_thu"
+            app:layout_constraintStart_toEndOf="@+id/aciv_icon_tue"
+            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aciv_icon_thu"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_cloud_computing"
+            app:layout_constraintEnd_toStartOf="@+id/aciv_icon_fri"
+            app:layout_constraintStart_toEndOf="@+id/aciv_icon_wes"
+            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aciv_icon_fri"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_cloud_computing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/aciv_icon_thu"
+            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actv_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="roboto"
+            android:text="@{weatherModel.name}"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toStartOf="@+id/aciv_forward"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/actv_temp"
@@ -137,19 +175,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
+            android:padding="5dp"
             android:text="@{weather.description}"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="32sp"
             app:layout_constraintTop_toBottomOf="@+id/actv_discription" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:alpha="0.5"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/actv_desprition" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/actv_mon"
@@ -197,63 +228,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/actv_thus"
             app:layout_constraintTop_toBottomOf="@+id/view" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/aciv_icon_mon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_cloud_computing"
-            app:layout_constraintEnd_toStartOf="@+id/aciv_icon_tue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/aciv_icon_tue"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="16dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_cloud_computing"
-            app:layout_constraintEnd_toStartOf="@+id/aciv_icon_wes"
-            app:layout_constraintStart_toEndOf="@+id/aciv_icon_mon"
-            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/aciv_icon_wes"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="16dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_cloud_computing"
-            app:layout_constraintEnd_toStartOf="@+id/aciv_icon_thu"
-            app:layout_constraintStart_toEndOf="@+id/aciv_icon_tue"
-            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/aciv_icon_thu"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="16dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_cloud_computing"
-            app:layout_constraintEnd_toStartOf="@+id/aciv_icon_fri"
-            app:layout_constraintStart_toEndOf="@+id/aciv_icon_wes"
-            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/aciv_icon_fri"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_cloud_computing"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/aciv_icon_thu"
-            app:layout_constraintTop_toBottomOf="@+id/actv_mon" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/actv_mon_temp"
@@ -303,4 +277,34 @@
             app:layout_constraintTop_toBottomOf="@+id/aciv_icon_fri" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="temp"
+            type="String" />
+
+
+        <variable
+            name="tempMin"
+            type="String" />
+
+
+        <variable
+            name="tempMax"
+            type="String" />
+
+
+        <variable
+            name="forecastModel"
+            type="com.example.task.model.ForeCasteMain" />
+
+        <variable
+            name="weatherModel"
+            type="com.example.task.model.WeatherMain" />
+
+        <variable
+            name="weather"
+            type="com.example.task.model.WeatherModel" />
+    </data>
 </layout>

@@ -3,6 +3,7 @@ package com.example.task.dataBase;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Dao
 public interface DataAsscessObjects {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertWeather(WeatherTable weatherTable);
 
     @Update

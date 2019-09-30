@@ -16,4 +16,14 @@ public class ForecastTable {
     public void setId(int id) {
         this.id = id;
     }
+
+    private double temp;
+
+    public double getTemp() {
+        return temp;
+    }
+
+    public void setTemp(double temp) {
+        this.temp = temp;
+    }
 }

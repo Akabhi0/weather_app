@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 
-@Database(entities = {WeatherTable.class, ForecastTable.class}, version = 3)
+@Database(entities = {WeatherTable.class, ForecastTable.class}, version = 1)
 public abstract class DatabaseClimate extends RoomDatabase {
 
     private static DatabaseClimate databaseClimate = null;
@@ -19,7 +19,8 @@ public abstract class DatabaseClimate extends RoomDatabase {
     public static DatabaseClimate getInstance(Application application) {
         if (databaseClimate == null) {
             databaseClimate = Room.databaseBuilder(application,
-                    DatabaseClimate.class, "climateDB").fallbackToDestructiveMigration().
+                    DatabaseClimate.class, "climateDB").
+                    fallbackToDestructiveMigration().
                     build();
         }
         return databaseClimate;

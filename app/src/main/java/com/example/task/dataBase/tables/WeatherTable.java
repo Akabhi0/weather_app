@@ -21,59 +21,46 @@ public class WeatherTable {
 
     private String discriptions;
 
-    public int getId() {
-        return id;
+    public WeatherTable(String city, String icon, double temp, double mintemp, double maxtemp, String discriptions) {
+        this.city = city;
+        this.icon = icon;
+        this.temp = temp;
+        this.mintemp = mintemp;
+        this.maxtemp = maxtemp;
+        this.discriptions = discriptions;
     }
 
-    public void setId(int id) {
-        this.id = id;
+
+    public int getId() {
+        return id;
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getIcon() {
         return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 
     public double getTemp() {
         return temp;
     }
 
-    public void setTemp(double temp) {
-        this.temp = temp;
-    }
-
     public double getMintemp() {
         return mintemp;
-    }
-
-    public void setMintemp(double mintemp) {
-        this.mintemp = mintemp;
     }
 
     public double getMaxtemp() {
         return maxtemp;
     }
 
-    public void setMaxtemp(double maxtemp) {
-        this.maxtemp = maxtemp;
-    }
-
     public String getDiscriptions() {
         return discriptions;
     }
 
-    public void setDiscriptions(String discriptions) {
-        this.discriptions = discriptions;
+    public void setId(int id) {
+        this.id = id;
     }
+
 }
