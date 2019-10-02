@@ -38,10 +38,10 @@ public class AddressFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.address_fragment, container, false);
-
         places = new Places();
         binding.setPlaces(places);
         addressScreenViewModelFactory = new AddressScreenViewModelFactory(getContext(), places);
+
         viewModel = ViewModelProviders.of(this, addressScreenViewModelFactory).get(AddressScreenViewModel.class);
         binding.setViewModel(viewModel);
         viewModel.getIsChecked().observe(this, new Observer<Boolean>() {

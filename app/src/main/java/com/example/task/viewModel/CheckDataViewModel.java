@@ -21,6 +21,4 @@ public class CheckDataViewModel extends ViewModel {
     public LiveData<List<WeatherTable>> sendLiveData() {
         return listLiveData;
     }
-
-
 }

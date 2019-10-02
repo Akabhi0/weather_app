@@ -2,6 +2,11 @@ package com.example.task.dataBase.tables;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.task.dataBase.TypeConverter;
+
+import java.util.List;
 
 @Entity(tableName = "forecastTable")
 public class ForecastTable {
@@ -17,13 +22,14 @@ public class ForecastTable {
         this.id = id;
     }
 
-    private double temp;
+    @TypeConverters(TypeConverter.class)
+    private List<ForecastArrayTable> forecastArrayTables;
 
-    public double getTemp() {
-        return temp;
+    public List<ForecastArrayTable> getForecastArrayTables() {
+        return forecastArrayTables;
     }
 
-    public void setTemp(double temp) {
-        this.temp = temp;
+    public void setForecastArrayTables(List<ForecastArrayTable> forecastArrayTables) {
+        this.forecastArrayTables = forecastArrayTables;
     }
 }

@@ -3,8 +3,10 @@ package com.example.task.dataBase.tables;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "weatherTable")
-public class WeatherTable {
+public class WeatherTable implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.task.dataBase.DataAsscessObjects;
 import com.example.task.dataBase.DatabaseClimate;
+import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.model.ForeCasteMain;
 import com.example.task.model.WeatherMain;
@@ -49,7 +50,7 @@ public class Repository {
         return repository;
     }
 
-    //========================NETWORK CALL OPERATIONS==============================================
+    //========================NETWORK CALL OPERATIONS===============================================
 
     /**
      * @param places
@@ -93,13 +94,14 @@ public class Repository {
         return listMutableLiveData = dataAsscessObjects.getAllWeatherData();
     }
 
-    public void IntsertData(WeatherTable weatherTable) {
+    public void InsertWeatherData(WeatherTable weatherTable) {
         new Repository.InsertWeatherAsyncTask(dataAsscessObjects).execute(weatherTable);
     }
 
-    public void UpdateData(WeatherTable weatherTable) {
-//        new RepositortDataBase.UpdateWeatherAsyncTask(dataAsscessObjects).execute(weatherTable);
+    public void InsertForecastData(ForecastTable forecastTable) {
+        new Repository.InsertForecastAsyncTask(dataAsscessObjects).execute(forecastTable);
     }
+
 
     //=======================ROOM DATABASE IS RUN ON BACKGROUND THREAD==============================
 
@@ -108,6 +110,10 @@ public class Repository {
      * to this repo
      */
     //INSERT THE DATABASE
+
+    /***
+     * This class is for inserting the weather into dataBase
+      */
     public static class InsertWeatherAsyncTask extends AsyncTask<WeatherTable, Void, Void> {
         private DataAsscessObjects dao;
 
@@ -122,18 +128,21 @@ public class Repository {
         }
     }
 
-    //UPDATING THE DATABASE
-    public static class UpdateWeatherAsyncTask extends AsyncTask<WeatherTable, Void, Void> {
+    /**
+     * This is the class for storing the forecast into dataBase
+     */
+    public static class InsertForecastAsyncTask extends AsyncTask<ForecastTable, Void, Void> {
         private DataAsscessObjects dao;
 
-        private UpdateWeatherAsyncTask(DataAsscessObjects asscessObjects) {
+        public InsertForecastAsyncTask(DataAsscessObjects asscessObjects) {
             this.dao = asscessObjects;
         }
 
         @Override
-        protected Void doInBackground(WeatherTable... weatherTables) {
-            dao.updateWeather(weatherTables[0]);
+        protected Void doInBackground(ForecastTable... forecastTables) {
+            dao.insertForeCast(forecastTables[0]);
             return null;
         }
     }
+
 }

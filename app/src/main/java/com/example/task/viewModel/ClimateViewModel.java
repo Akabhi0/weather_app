@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.repository.Repository;
 
@@ -14,7 +15,12 @@ public class ClimateViewModel extends ViewModel {
         repositortDataBase = Repository.getRepositoryDataBase(application);
     }
 
-    public void insert(WeatherTable weatherTable) {
-        repositortDataBase.IntsertData(weatherTable);
+    public void insertWeatherData(WeatherTable weatherTable) {
+        repositortDataBase.InsertWeatherData(weatherTable);
     }
+
+    public void insertForcastData(ForecastTable forecastTable) {
+        repositortDataBase.InsertForecastData(forecastTable);
+    }
+
 }

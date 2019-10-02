@@ -16,5 +16,6 @@ public class Constant {
     public static int INTENT_CLIMATE_START_SCREEN_VALUE = 12;
     public static int INTENT_CLIMATE_ADDRESS_SCREEN_VALUE = 13;
     public static int INTENT_RESULT_CODE = 1;
+    public static String INTENT_RETURN = "return_back";
 
 }

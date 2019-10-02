@@ -2,6 +2,7 @@ package com.example.task.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.example.task.BasicUtality.BasicFunction;
 import com.example.task.BasicUtality.Constant;
 import com.example.task.R;
+import com.example.task.dataBase.tables.ForecastArrayTable;
+import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.databinding.ActivityClimateShowBinding;
 import com.example.task.model.ForeCasteMain;
@@ -22,6 +25,8 @@ import com.example.task.model.WeatherModel;
 import com.example.task.viewModel.CheckDataViewModel;
 import com.example.task.viewModel.ClimateViewModel;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClimateShowActivity extends AppCompatActivity {
@@ -30,6 +35,7 @@ public class ClimateShowActivity extends AppCompatActivity {
     private ForeCasteMain foreCasteMain;
     private WeatherMain weatherMain;
     private int ADDRESS_VALUE, START_VALUE;
+    private ArrayList<ForecastArrayTable> forcasteArrayList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +77,44 @@ public class ClimateShowActivity extends AppCompatActivity {
                     weatherMain.getWeatherClimateModel().getTempMax(),
                     weatherMain.getWeatherModels().get(0).getDescription());
 
+            Log.e("e", "" + foreCasteMain.getForecastObejctsModels().size());
+
+            for (int i = 0; i < foreCasteMain.getForecastObejctsModels().size(); i++) {
+                for (int j = i + 1; j < foreCasteMain.getForecastObejctsModels().size(); j++) {
+                    try {
+                        String dateOne = BasicFunction.getDateFromDateTime(foreCasteMain.getForecastObejctsModels().get(i).getDate());
+                        String dateTwo = BasicFunction.getDateFromDateTime(foreCasteMain.getForecastObejctsModels().get(j).getDate());
+                        if (dateOne.equals(dateTwo)) {
+                            String days = BasicFunction.getDayFromDate(foreCasteMain.getForecastObejctsModels().get(i).getDate());
+
+                            ForecastArrayTable forecastArrayTable = new ForecastArrayTable();
+                            forecastArrayTable.setDescription(foreCasteMain.getForecastObejctsModels().get(i).
+                                    getWeatherModels().get(0).getDescription());
+                            forecastArrayTable.setIcon(foreCasteMain.getForecastObejctsModels().get(i).
+                                    getWeatherModels().get(0).getIcon());
+                            forecastArrayTable.setTemp(foreCasteMain.getForecastObejctsModels().get(i).
+                                    getForcasteMainModel().getTemp());
+                            forecastArrayTable.setTempMax(foreCasteMain.getForecastObejctsModels().get(i).
+                                    getForcasteMainModel().getTempMax());
+                            forecastArrayTable.setTempMin(foreCasteMain.getForecastObejctsModels().get(i).
+                                    getForcasteMainModel().getTempMin());
+                            forecastArrayTable.setDay(days);
+                            forecastArrayTable.setDate(dateOne);
+                            forcasteArrayList.add(forecastArrayTable);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            ForecastTable forecastTable = new ForecastTable();
+            forecastTable.setForecastArrayTables(forcasteArrayList);
+
             ClimateViewModel viewModel = ViewModelProviders.of(this).get(ClimateViewModel.class);
             viewModel.insertWeatherData(getApplication());
-            viewModel.insert(weatherTable);
+            viewModel.insertWeatherData(weatherTable);
+            viewModel.insertForcastData(forecastTable);
 
             /**
              * On click of the forward arrow
@@ -81,8 +122,9 @@ public class ClimateShowActivity extends AppCompatActivity {
             binding.acivForward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String city = binding.actvCity.getText().toString();
                     Intent intentResult = new Intent(ClimateShowActivity.this, NewAddressActivity.class);
-                    intentResult.putExtra(binding.actvCity.getText().toString(), Constant.INTENT_CITY_NAME);
+                    intentResult.putExtra(Constant.INTENT_CITY_NAME, city);
                     startActivityForResult(intentResult, Constant.INTENT_RESULT_CODE);
                 }
             });
@@ -134,9 +176,9 @@ public class ClimateShowActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 String cityName = binding.actvCity.getText().toString();
-                                Intent intentResult = new Intent(ClimateShowActivity.this, NewAddressActivity.class);
-                                intentResult.putExtra(cityName, Constant.INTENT_CITY_NAME);
-                                startActivityForResult(intentResult, Constant.INTENT_RESULT_CODE);
+                                Intent newIntent = new Intent(ClimateShowActivity.this, NewAddressActivity.class);
+                                newIntent.putExtra(Constant.INTENT_CITY_NAME, cityName);
+                                startActivityForResult(newIntent, Constant.INTENT_RESULT_CODE);
                             }
                         });
 
@@ -147,4 +189,5 @@ public class ClimateShowActivity extends AppCompatActivity {
 
         }
     }
+
 }
