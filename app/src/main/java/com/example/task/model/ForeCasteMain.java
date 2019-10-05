@@ -16,6 +16,18 @@ public class ForeCasteMain implements Serializable {
     @Expose
     private ArrayList<ForecastObejctsModel> forecastObejctsModels = new ArrayList<>();
 
+    @SerializedName("city")
+    @Expose
+    private City city;
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     public String getCod() {
         return cod;
     }

@@ -1,31 +1,20 @@
 package com.example.task.dataBase.tables;
 
+import java.util.ArrayList;
+
 public class ForecastArrayTable {
 
-    private Double temp;
-
-    private Double tempMin;
-
-    private Double tempMax;
-
-    private String main;
-
-    private String description;
-
-    private String icon;
+    private ArrayList<ForecastDateTable> forecastDateTables;
 
     private String date;
 
-    private String day;
-
-    public String getDay() {
-        return day;
+    public ArrayList<ForecastDateTable> getForecastDateTables() {
+        return forecastDateTables;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setForecastDateTables(ArrayList<ForecastDateTable> forecastDateTables) {
+        this.forecastDateTables = forecastDateTables;
     }
-
 
     public String getDate() {
         return date;
@@ -35,52 +24,4 @@ public class ForecastArrayTable {
         this.date = date;
     }
 
-
-    public Double getTemp() {
-        return temp;
-    }
-
-    public void setTemp(Double temp) {
-        this.temp = temp;
-    }
-
-    public Double getTempMin() {
-        return tempMin;
-    }
-
-    public void setTempMin(Double tempMin) {
-        this.tempMin = tempMin;
-    }
-
-    public Double getTempMax() {
-        return tempMax;
-    }
-
-    public void setTempMax(Double tempMax) {
-        this.tempMax = tempMax;
-    }
-
-    public String getMain() {
-        return main;
-    }
-
-    public void setMain(String main) {
-        this.main = main;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
 }

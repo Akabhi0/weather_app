@@ -66,7 +66,6 @@ public class Repository {
 
             @Override
             public void onFailure(Call<ForeCasteMain> call, Throwable t) {
-
             }
         });
         return foreCasteMutableLiveData;
@@ -83,7 +82,7 @@ public class Repository {
 
             @Override
             public void onFailure(Call<WeatherMain> call, Throwable t) {
-
+                int i = 0;
             }
         });
         return weatherModelMutableLiveData;
@@ -113,7 +112,7 @@ public class Repository {
 
     /***
      * This class is for inserting the weather into dataBase
-      */
+     */
     public static class InsertWeatherAsyncTask extends AsyncTask<WeatherTable, Void, Void> {
         private DataAsscessObjects dao;
 

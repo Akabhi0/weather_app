@@ -61,14 +61,15 @@ public class BasicFunction {
 
     /**
      * This is used for getting the date from date and time
+     *
      * @param dateTime
      * @return
      * @throws ParseException
      */
     public static String getDateFromDateTime(String dateTime) throws ParseException {
-        SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         Date date = dt.parse(dateTime);
-        SimpleDateFormat dt1 = new SimpleDateFormat("yyyyy-mm-dd");
+        SimpleDateFormat dt1 = new SimpleDateFormat("MMM dd, yyyy");
         return String.valueOf(dt1.format(date));
     }
 }

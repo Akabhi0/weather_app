@@ -20,6 +20,7 @@ public class ForecastObejctsModel implements Serializable {
     @Expose
     private String date;
 
+
     public String getDate() {
         return date;
     }
