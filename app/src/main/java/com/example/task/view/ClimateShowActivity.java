@@ -36,6 +36,7 @@ public class ClimateShowActivity extends AppCompatActivity {
     private ForeCasteMain foreCasteMain;
     private WeatherMain weatherMain;
     private int ADDRESS_VALUE, START_VALUE;
+    private String date, day, time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,71 @@ public class ClimateShowActivity extends AppCompatActivity {
             foreCasteMain = (ForeCasteMain) intent.getSerializableExtra(Constant.ADDRESS_TO_CLIMATE_FORECAST_KEY);
             weatherMain = (WeatherMain) intent.getSerializableExtra(Constant.ADDRESS_TO_CLIMATE_WEATHER_KEY);
 
+            ArrayList<ForecastArrayTable> forecastArrayTables = new ArrayList<>();
+            for (int i = 0; i < foreCasteMain.getForecastObejctsModels().size(); i++) {
+                try {
+                    date = BasicFunction.getDateFromDateTime(foreCasteMain.getForecastObejctsModels().get(0).getDate());
+                    day = BasicFunction.getDayFromDate(foreCasteMain.getForecastObejctsModels().get(0).getDate());
+                    time = BasicFunction.getTimeFromDateTime(foreCasteMain.getForecastObejctsModels().get(0).getDate());
+
+                    ForecastArrayTable forecastArrayTable = new ForecastArrayTable();
+                    /**
+                     * 1st taking the data from weather list
+                     */
+                    forecastArrayTable.setDescription(foreCasteMain.getForecastObejctsModels().get(i).getWeatherModels().get(0).getDescription());
+                    forecastArrayTable.setIcon(foreCasteMain.getForecastObejctsModels().get(i).getWeatherModels().get(0).getIcon());
+
+                    /**
+                     * Taking the data from from main object list
+                     */
+                    forecastArrayTable.setTemp(foreCasteMain.getForecastObejctsModels().get(i).getForcasteMainModel().getTemp());
+                    forecastArrayTable.setTempMax(foreCasteMain.getForecastObejctsModels().get(i).getForcasteMainModel().getTempMax());
+                    forecastArrayTable.setTempMin(foreCasteMain.getForecastObejctsModels().get(i).getForcasteMainModel().getTempMin());
+
+                    forecastArrayTable.setTime(BasicFunction.getTimeFromDateTime(foreCasteMain.getForecastObejctsModels().get(i).getDate()));
+                    forecastArrayTable.setDay(BasicFunction.getDayFromDate(foreCasteMain.getForecastObejctsModels().get(i).getDate()));
+                    forecastArrayTable.setCity(foreCasteMain.getCity().getName());
+                    forecastArrayTable.setDate(BasicFunction.getDateFromDateTime(foreCasteMain.getForecastObejctsModels().get(i).getDate()));
+                    forecastArrayTables.add(forecastArrayTable);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            ForecastTable forecastTable = new ForecastTable();
+            forecastTable.setForecastArrayTables(forecastArrayTables);
+
+            WeatherTable weatherTable = new WeatherTable(weatherMain.getName(),
+                    weatherMain.getWeatherModels().get(0).getIcon(),
+                    weatherMain.getWeatherClimateModel().getTemp(),
+                    weatherMain.getWeatherClimateModel().getTempMin(),
+                    weatherMain.getWeatherClimateModel().getTempMax(),
+                    weatherMain.getWeatherModels().get(0).getDescription(),
+                    day, date, time
+            );
+
+
+            /**
+             * This is for setting the adapter
+             */
+            ForecastAdapter adapter = new ForecastAdapter(this, forecastArrayTables);
+            binding.recyclerView.setAdapter(adapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            binding.recyclerView.setLayoutManager(linearLayoutManager);
+
+            ClimateViewModel viewModel = ViewModelProviders.of(this).get(ClimateViewModel.class);
+            viewModel.insertWeatherData(getApplication());
+            viewModel.insertWeatherData(weatherTable);
+            viewModel.insertForcastData(forecastTable);
+
+            /**
+             * This is setting for setting the data into xml
+             */
             binding.setForecastModel(foreCasteMain);
             binding.setWeatherModel(weatherMain);
+            binding.setDate(time);
+            binding.setDay(day);
 
             binding.setTemp(String.format(Constant.STRING_FORMATE,
                     BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTemp())) + (char) 0x00B0);
@@ -69,54 +133,6 @@ public class ClimateShowActivity extends AppCompatActivity {
                     .load(Constant.PIC + weatherMain.getWeatherModels().get(0).getIcon() + Constant.FORMATE)
                     .placeholder(R.drawable.ic_cloud_computing).
                     into(binding.acivWeatherIcon);
-
-            WeatherTable weatherTable = new WeatherTable(weatherMain.getName(),
-                    weatherMain.getWeatherModels().get(0).getIcon(),
-                    weatherMain.getWeatherClimateModel().getTemp(),
-                    weatherMain.getWeatherClimateModel().getTempMin(),
-                    weatherMain.getWeatherClimateModel().getTempMax(),
-                    weatherMain.getWeatherModels().get(0).getDescription());
-
-            ArrayList<ForecastArrayTable> forecastArrayTables = new ArrayList<>();
-            for (int i = 0; i < foreCasteMain.getForecastObejctsModels().size(); i++) {
-                try {
-                    ForecastArrayTable forecastArrayTable = new ForecastArrayTable();
-                    /**
-                     * 1st taking the data from weather list
-                     */
-                    forecastArrayTable.setDescription(foreCasteMain.getForecastObejctsModels().get(i).getWeatherModels().get(0).getDescription());
-                    forecastArrayTable.setIcon(foreCasteMain.getForecastObejctsModels().get(i).getWeatherModels().get(0).getIcon());
-
-                    /**
-                     * Taking the data from from main object list
-                     */
-                    forecastArrayTable.setTemp(foreCasteMain.getForecastObejctsModels().get(i).getForcasteMainModel().getTemp());
-                    forecastArrayTable.setTempMax(foreCasteMain.getForecastObejctsModels().get(i).getForcasteMainModel().getTempMax());
-                    forecastArrayTable.setTempMin(foreCasteMain.getForecastObejctsModels().get(i).getForcasteMainModel().getTempMin());
-
-                    forecastArrayTable.setDay(BasicFunction.getDayFromDate(foreCasteMain.getForecastObejctsModels().get(i).getDate()));
-                    forecastArrayTable.setCity(foreCasteMain.getCity().getName());
-                    forecastArrayTable.setDate(BasicFunction.getDateFromDateTime(foreCasteMain.getForecastObejctsModels().get(i).getDate()));
-                    forecastArrayTables.add(forecastArrayTable);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            ForecastTable forecastTable = new ForecastTable();
-            forecastTable.setForecastArrayTables(forecastArrayTables);
-
-            /**
-             * This is for setting the adapter
-             */
-            ForecastAdapter adapter = new ForecastAdapter(this, forecastArrayTables);
-            binding.recyclerView.setAdapter(adapter);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            binding.recyclerView.setLayoutManager(linearLayoutManager);
-
-            ClimateViewModel viewModel = ViewModelProviders.of(this).get(ClimateViewModel.class);
-            viewModel.insertWeatherData(getApplication());
-            viewModel.insertWeatherData(weatherTable);
-            viewModel.insertForcastData(forecastTable);
 
             /**
              * On click of the forward arrow
@@ -161,6 +177,8 @@ public class ClimateShowActivity extends AppCompatActivity {
 
                         binding.setWeatherModel(weatherMain);
                         binding.setWeather(weatherModel);
+                        binding.setDay(weatherTables.get(0).getDay());
+                        binding.setDate(weatherTables.get(0).getDate());
 
                         binding.setTemp(String.format(Constant.STRING_FORMATE,
                                 BasicFunction.getCelcius(weatherClimateModel.getTemp())) + (char) 0x00B0);

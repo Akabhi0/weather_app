@@ -23,13 +23,26 @@ public class WeatherTable implements Serializable {
 
     private String discriptions;
 
-    public WeatherTable(String city, String icon, double temp, double mintemp, double maxtemp, String discriptions) {
+    private String day;
+
+    private String date;
+
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public WeatherTable(String city, String icon, double temp, double mintemp, double maxtemp, String discriptions, String day, String date, String time) {
         this.city = city;
         this.icon = icon;
         this.temp = temp;
         this.mintemp = mintemp;
         this.maxtemp = maxtemp;
         this.discriptions = discriptions;
+        this.date = date;
+        this.day = day;
+        this.time = time;
     }
 
 
@@ -64,5 +77,14 @@ public class WeatherTable implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getDay() {
+        return day;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
 
 }

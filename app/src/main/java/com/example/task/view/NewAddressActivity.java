@@ -34,7 +34,7 @@ public class NewAddressActivity extends AppCompatActivity {
     private AddressScreenViewModelFactory addressScreenViewModelFactory;
     private boolean networkCheck;
     private Places places;
-    private String placeName;
+    private String placeName, date, day, time;
     private WeatherTable weatherTable;
 
     @Override
@@ -69,16 +69,6 @@ public class NewAddressActivity extends AppCompatActivity {
                                     viewModel.getForecaste(places.getPlace());
 
                                     /**
-                                     * This is for inserting the data into weather table
-                                     */
-                                    weatherTable = new WeatherTable(weatherMain.getName(),
-                                            weatherMain.getWeatherModels().get(0).getIcon(),
-                                            weatherMain.getWeatherClimateModel().getTemp(),
-                                            weatherMain.getWeatherClimateModel().getTempMin(),
-                                            weatherMain.getWeatherClimateModel().getTempMax(),
-                                            weatherMain.getWeatherModels().get(0).getDescription());
-
-                                    /**
                                      * This is the observer for inserting the weather data into database
                                      */
                                     viewModel.getForcasteData().observe(NewAddressActivity.this, new Observer<ForeCasteMain>() {
@@ -88,7 +78,12 @@ public class NewAddressActivity extends AppCompatActivity {
                                                 ArrayList<ForecastArrayTable> forecastArrayTables = new ArrayList<>();
                                                 for (int i = 0; i < foreCaste.getForecastObejctsModels().size(); i++) {
                                                     try {
+                                                        day = BasicFunction.getDayFromDate(foreCaste.getForecastObejctsModels().get(0).getDate());
+                                                        date = BasicFunction.getDateFromDateTime(foreCaste.getForecastObejctsModels().get(0).getDate());
+                                                        time = BasicFunction.getTimeFromDateTime(foreCaste.getForecastObejctsModels().get(0).getDate());
+
                                                         String days = BasicFunction.getDayFromDate(foreCaste.getForecastObejctsModels().get(i).getDate());
+
                                                         ForecastArrayTable forecastArrayTable = new ForecastArrayTable();
                                                         /**
                                                          * 1st taking the data from weather list
@@ -106,6 +101,7 @@ public class NewAddressActivity extends AppCompatActivity {
                                                         forecastArrayTable.setDay(days);
                                                         forecastArrayTable.setCity(foreCaste.getCity().getName());
                                                         forecastArrayTable.setDate(BasicFunction.getDateFromDateTime(foreCaste.getForecastObejctsModels().get(i).getDate()));
+                                                        forecastArrayTable.setTime(BasicFunction.getTimeFromDateTime(foreCaste.getForecastObejctsModels().get(i).getDate()));
                                                         forecastArrayTables.add(forecastArrayTable);
                                                     } catch (ParseException e) {
                                                         e.printStackTrace();
@@ -113,6 +109,18 @@ public class NewAddressActivity extends AppCompatActivity {
                                                 }
                                                 ForecastTable forecastTable = new ForecastTable();
                                                 forecastTable.setForecastArrayTables(forecastArrayTables);
+
+                                                /**
+                                                 * This is for inserting the data into weather table
+                                                 */
+                                                weatherTable = new WeatherTable(weatherMain.getName(),
+                                                        weatherMain.getWeatherModels().get(0).getIcon(),
+                                                        weatherMain.getWeatherClimateModel().getTemp(),
+                                                        weatherMain.getWeatherClimateModel().getTempMin(),
+                                                        weatherMain.getWeatherClimateModel().getTempMax(),
+                                                        weatherMain.getWeatherModels().get(0).getDescription(),
+                                                        day, date, time
+                                                );
 
                                                 ClimateViewModel viewModel = ViewModelProviders.of(NewAddressActivity.this).get(ClimateViewModel.class);
                                                 viewModel.insertWeatherData(getApplication());

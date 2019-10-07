@@ -16,6 +16,18 @@ public class ForecastArrayTable {
 
     private String city;
 
+    private String day;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    private String time;
+
     public String getDay() {
         return day;
     }
@@ -24,7 +36,6 @@ public class ForecastArrayTable {
         this.day = day;
     }
 
-    private String day;
 
     public Double getTemp() {
         return temp;

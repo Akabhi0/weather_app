@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class BasicFunction {
 
@@ -69,7 +70,20 @@ public class BasicFunction {
     public static String getDateFromDateTime(String dateTime) throws ParseException {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         Date date = dt.parse(dateTime);
-        SimpleDateFormat dt1 = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat dt1 = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+        return String.valueOf(dt1.format(date));
+    }
+
+    /**
+     * This is the function is used to get the time from the date time in java
+     * @param dateTime
+     * @return
+     * @throws ParseException
+     */
+    public static String getTimeFromDateTime(String dateTime) throws ParseException {
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        Date date = dt.parse(dateTime);
+        SimpleDateFormat dt1 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
         return String.valueOf(dt1.format(date));
     }
 }

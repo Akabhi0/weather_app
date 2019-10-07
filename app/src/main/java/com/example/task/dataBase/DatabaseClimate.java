@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 
-@Database(entities = {WeatherTable.class, ForecastTable.class}, version = 3)
+@Database(entities = {WeatherTable.class, ForecastTable.class}, version = 5)
 @TypeConverters(TypeConverter.class)
 public abstract class DatabaseClimate extends RoomDatabase {
 
