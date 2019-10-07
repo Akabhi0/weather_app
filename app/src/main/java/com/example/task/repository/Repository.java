@@ -29,6 +29,7 @@ public class Repository {
 
     //===============DATABASE REFERENCE VARIABLES===================================================
     public LiveData<List<WeatherTable>> listMutableLiveData;
+    public LiveData<List<ForecastTable>> listForecastLiveData;
     private static DataAsscessObjects dataAsscessObjects;
     private static DatabaseClimate databaseClimate;
 
@@ -93,6 +94,11 @@ public class Repository {
         return listMutableLiveData = dataAsscessObjects.getAllWeatherData();
     }
 
+    public LiveData<List<ForecastTable>> getAllForecastTable() {
+        listForecastLiveData = dataAsscessObjects.getAllForecastTable();
+        return listForecastLiveData;
+    }
+
     public void InsertWeatherData(WeatherTable weatherTable) {
         new Repository.InsertWeatherAsyncTask(dataAsscessObjects).execute(weatherTable);
     }
@@ -100,7 +106,6 @@ public class Repository {
     public void InsertForecastData(ForecastTable forecastTable) {
         new Repository.InsertForecastAsyncTask(dataAsscessObjects).execute(forecastTable);
     }
-
 
     //=======================ROOM DATABASE IS RUN ON BACKGROUND THREAD==============================
 

@@ -22,4 +22,7 @@ public interface DataAsscessObjects {
 
     @Query("SELECT * FROM weatherTable ORDER BY id DESC")
     LiveData<List<WeatherTable>> getAllWeatherData();
+
+    @Query("SELECT * FROM forecastTable ORDER BY id DESC")
+    LiveData<List<ForecastTable>> getAllForecastTable();
 }
