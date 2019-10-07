@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.task.dataBase.tables.ForecastSingleTable;
 import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.repository.Repository;
@@ -15,6 +16,7 @@ public class CheckDataViewModel extends ViewModel {
 
     public LiveData<List<WeatherTable>> listLiveData;
     public LiveData<List<ForecastTable>> listForecasteLiveData;
+    public LiveData<List<ForecastSingleTable>> liveForecastSingleLiveData;
 
     /**
      * This is for taking the data of the weather from dataBase
@@ -40,5 +42,16 @@ public class CheckDataViewModel extends ViewModel {
 
     public LiveData<List<ForecastTable>> sendForecastLiveData() {
         return listForecasteLiveData;
+    }
+
+    /**
+     * This is for taking the forecast single data form the dataBase
+     */
+    public void getForecastSingleTableLiveData(Application application) {
+        liveForecastSingleLiveData = Repository.getRepositoryDataBase(application).getAllForecastSingleTable();
+    }
+
+    public LiveData<List<ForecastSingleTable>> sendForecastSingleLiveData() {
+        return liveForecastSingleLiveData;
     }
 }

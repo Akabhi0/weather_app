@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.task.dataBase.DataAsscessObjects;
 import com.example.task.dataBase.DatabaseClimate;
+import com.example.task.dataBase.tables.ForecastSingleTable;
 import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.model.ForeCasteMain;
@@ -27,9 +28,12 @@ public class Repository {
     private MutableLiveData<ForeCasteMain> foreCasteMutableLiveData;
     private MutableLiveData<WeatherMain> weatherModelMutableLiveData;
 
+
     //===============DATABASE REFERENCE VARIABLES===================================================
     public LiveData<List<WeatherTable>> listMutableLiveData;
     public LiveData<List<ForecastTable>> listForecastLiveData;
+    public LiveData<List<ForecastSingleTable>> listForecastSingleLiveData;
+
     private static DataAsscessObjects dataAsscessObjects;
     private static DatabaseClimate databaseClimate;
 
@@ -99,6 +103,11 @@ public class Repository {
         return listForecastLiveData;
     }
 
+    public LiveData<List<ForecastSingleTable>> getAllForecastSingleTable() {
+        listForecastSingleLiveData = dataAsscessObjects.getAllForecastSingleTable();
+        return listForecastSingleLiveData;
+    }
+
     public void InsertWeatherData(WeatherTable weatherTable) {
         new Repository.InsertWeatherAsyncTask(dataAsscessObjects).execute(weatherTable);
     }
@@ -107,6 +116,9 @@ public class Repository {
         new Repository.InsertForecastAsyncTask(dataAsscessObjects).execute(forecastTable);
     }
 
+    public void InsertForecastSingleData(ForecastSingleTable forecastSingleTable) {
+        new Repository.InsertForecastSingleAsynTask(dataAsscessObjects).execute(forecastSingleTable);
+    }
     //=======================ROOM DATABASE IS RUN ON BACKGROUND THREAD==============================
 
     /**
@@ -145,6 +157,23 @@ public class Repository {
         @Override
         protected Void doInBackground(ForecastTable... forecastTables) {
             dao.insertForeCast(forecastTables[0]);
+            return null;
+        }
+    }
+
+    /**
+     * This is for inserting the single forecast data into the dataBase
+     */
+    public static class InsertForecastSingleAsynTask extends AsyncTask<ForecastSingleTable, Void, Void> {
+        private DataAsscessObjects dataAsscessObjects;
+
+        public InsertForecastSingleAsynTask(DataAsscessObjects asscessObjects) {
+            this.dataAsscessObjects = asscessObjects;
+        }
+
+        @Override
+        protected Void doInBackground(ForecastSingleTable... forecastSingleTables) {
+            dataAsscessObjects.insertForecastArray(forecastSingleTables[0]);
             return null;
         }
     }

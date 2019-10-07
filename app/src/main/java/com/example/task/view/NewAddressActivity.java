@@ -14,6 +14,8 @@ import com.example.task.BasicUtality.BasicFunction;
 import com.example.task.BasicUtality.Constant;
 import com.example.task.R;
 import com.example.task.dataBase.tables.ForecastArrayTable;
+import com.example.task.dataBase.tables.ForecastSingleArrayTable;
+import com.example.task.dataBase.tables.ForecastSingleTable;
 import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.databinding.ActivityNewAddressBinding;
@@ -75,6 +77,10 @@ public class NewAddressActivity extends AppCompatActivity {
                                         @Override
                                         public void onChanged(ForeCasteMain foreCaste) {
                                             if (foreCaste != null) {
+
+                                                /**
+                                                 * This is for getting all the for caste
+                                                 */
                                                 ArrayList<ForecastArrayTable> forecastArrayTables = new ArrayList<>();
                                                 for (int i = 0; i < foreCaste.getForecastObejctsModels().size(); i++) {
                                                     try {
@@ -107,8 +113,33 @@ public class NewAddressActivity extends AppCompatActivity {
                                                         e.printStackTrace();
                                                     }
                                                 }
+
                                                 ForecastTable forecastTable = new ForecastTable();
                                                 forecastTable.setForecastArrayTables(forecastArrayTables);
+
+                                                /**
+                                                 * Checking for the forecast of eack 1st index
+                                                 */
+                                                ArrayList<ForecastSingleArrayTable> forecastSingleArrayTables = new ArrayList<>();
+                                                for (int days = 0; days < forecastTable.getForecastArrayTables().size(); days++) {
+                                                    try {
+                                                        if (!forecastTable.getForecastArrayTables().get(days).getDay().
+                                                                equals(forecastTable.getForecastArrayTables().get(days + 1).getDay())) {
+
+                                                            ForecastSingleArrayTable forecastSingleArrayTable = new ForecastSingleArrayTable();
+                                                            forecastSingleArrayTable.setDate(forecastTable.getForecastArrayTables().get(days).getDate());
+                                                            forecastSingleArrayTable.setDay(forecastTable.getForecastArrayTables().get(days).getDay());
+                                                            forecastSingleArrayTable.setIcon(forecastTable.getForecastArrayTables().get(days).getIcon());
+                                                            forecastSingleArrayTable.setTempMax(forecastTable.getForecastArrayTables().get(days).getTempMax());
+                                                            forecastSingleArrayTable.setTempMin(forecastTable.getForecastArrayTables().get(days).getTempMin());
+                                                            forecastSingleArrayTables.add(forecastSingleArrayTable);
+                                                        }
+                                                    } catch (IndexOutOfBoundsException i) {
+                                                    }
+                                                }
+
+                                                ForecastSingleTable forecastSingleTable = new ForecastSingleTable();
+                                                forecastSingleTable.setSingleArrayTables(forecastSingleArrayTables);
 
                                                 /**
                                                  * This is for inserting the data into weather table
@@ -126,6 +157,7 @@ public class NewAddressActivity extends AppCompatActivity {
                                                 viewModel.insertWeatherData(getApplication());
                                                 viewModel.insertWeatherData(weatherTable);
                                                 viewModel.insertForcastData(forecastTable);
+                                                viewModel.insertForecastSingleData(forecastSingleTable);
                                                 finish();
                                             }
                                         }

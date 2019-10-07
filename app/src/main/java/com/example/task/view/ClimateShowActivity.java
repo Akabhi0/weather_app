@@ -9,13 +9,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.task.BasicUtality.BasicFunction;
 import com.example.task.BasicUtality.Constant;
 import com.example.task.R;
 import com.example.task.adapter.ForecastAdapter;
+import com.example.task.adapter.ForecastSingleAdapter;
 import com.example.task.dataBase.tables.ForecastArrayTable;
+import com.example.task.dataBase.tables.ForecastSingleTable;
 import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.databinding.ActivityClimateShowBinding;
@@ -155,6 +158,7 @@ public class ClimateShowActivity extends AppCompatActivity {
             CheckDataViewModel viewModel = ViewModelProviders.of(this).get(CheckDataViewModel.class);
             viewModel.getWeatherTableLiveData(getApplication());
             viewModel.getForecastTableLiveData(getApplication());
+            viewModel.getForecastSingleTableLiveData(getApplication());
 
             /**
              * This is observer is used for checking the weather table
@@ -227,6 +231,20 @@ public class ClimateShowActivity extends AppCompatActivity {
                 }
             });
 
+            /**
+             * This is the observer is used for checking the forecastsingle tables
+             */
+            viewModel.sendForecastSingleLiveData().observe(this, new Observer<List<ForecastSingleTable>>() {
+                @Override
+                public void onChanged(List<ForecastSingleTable> forecastSingleTables) {
+                    if (forecastSingleTables != null) {
+                        ForecastSingleAdapter forecastSingleAdapter = new ForecastSingleAdapter(forecastSingleTables);
+                        binding.recyclerSingleView.setAdapter(forecastSingleAdapter);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ClimateShowActivity.this, RecyclerView.HORIZONTAL, false);
+                        binding.recyclerSingleView.setLayoutManager(linearLayoutManager);
+                    }
+                }
+            });
 
         }
     }

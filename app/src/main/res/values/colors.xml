@@ -7,4 +7,6 @@
     <color name="background">#3C5A98</color>
     <color name="white">#ffffff</color>
     <color name="grey">#444444</color>
+    <color name="yellow">#EBAF3C</color>
+    <color name="black">#000000</color>
 </resources>

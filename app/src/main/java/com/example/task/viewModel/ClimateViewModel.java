@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.task.dataBase.tables.ForecastSingleTable;
 import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.repository.Repository;
@@ -21,6 +22,10 @@ public class ClimateViewModel extends ViewModel {
 
     public void insertForcastData(ForecastTable forecastTable) {
         repositortDataBase.InsertForecastData(forecastTable);
+    }
+
+    public void insertForecastSingleData(ForecastSingleTable forecastSingleTable) {
+        repositortDataBase.InsertForecastSingleData(forecastSingleTable);
     }
 
 }
