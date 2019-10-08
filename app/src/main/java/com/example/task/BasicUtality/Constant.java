@@ -18,4 +18,7 @@ public class Constant {
     public static int INTENT_RESULT_CODE = 1;
     public static String INTENT_RETURN = "return_back";
 
+    public static int START_VALUE = 0;
+    public static int ADDRESS_VALUE = 0;
+
 }

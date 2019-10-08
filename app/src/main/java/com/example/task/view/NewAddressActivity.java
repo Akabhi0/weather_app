@@ -158,6 +158,8 @@ public class NewAddressActivity extends AppCompatActivity {
                                                 viewModel.insertWeatherData(weatherTable);
                                                 viewModel.insertForcastData(forecastTable);
                                                 viewModel.insertForecastSingleData(forecastSingleTable);
+                                                Constant.START_VALUE = Constant.INTENT_CLIMATE_START_SCREEN_VALUE;
+                                                Constant.ADDRESS_VALUE = 0;
                                                 finish();
                                             }
                                         }

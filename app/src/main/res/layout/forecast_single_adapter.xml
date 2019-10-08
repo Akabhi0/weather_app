@@ -4,35 +4,35 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/actv_day"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:paddingTop="7dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/aciv_weather_icon"
-            app:layout_constraintStart_toStartOf="@+id/aciv_weather_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aciv_icon_mon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/circle"
+            android:padding="5dp"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_cloud_computing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actv_day" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/actv_max_temp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
             android:text="20"
             android:textAlignment="textEnd"
-            android:textColor="@color/black"
+            android:textColor="@color/yellow"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/actv__symbol"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_one" />
+            app:layout_constraintTop_toBottomOf="@+id/aciv_icon_mon" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/actv__symbol"
@@ -40,47 +40,49 @@
             android:layout_height="wrap_content"
             android:text="/"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/yellow"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/actv_min_temp"
             app:layout_constraintEnd_toStartOf="@+id/actv_min_temp"
             app:layout_constraintHorizontal_weight="0.5"
             app:layout_constraintStart_toEndOf="@+id/actv_max_temp"
-            app:layout_constraintTop_toBottomOf="@+id/card_one" />
+            app:layout_constraintTop_toBottomOf="@+id/aciv_icon_mon"
+            app:layout_constraintTop_toTopOf="@+id/actv_min_temp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/actv_min_temp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
             android:text="20"
             android:textAlignment="textStart"
-            android:textColor="@color/black"
+            android:textColor="@color/yellow"
             android:textSize="16sp"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/actv__symbol"
-            app:layout_constraintTop_toBottomOf="@+id/card_one" />
+            app:layout_constraintTop_toBottomOf="@+id/aciv_icon_mon" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_one"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actv_day"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingTop="7dp"
+            android:text="@{forecast.day}"
+            android:textAlignment="center"
+            android:textColor="@color/yellow"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actv_day">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/aciv_icon_mon"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:padding="10dp"
-                android:src="@drawable/ic_cloud_computing"
-                app:layout_constraintStart_toEndOf="@+id/view"
-                app:layout_constraintTop_toBottomOf="@+id/actv_city_name" />
-        </androidx.cardview.widget.CardView>
-
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
 
+        <variable
+            name="forecast"
+            type="com.example.task.dataBase.tables.ForecastSingleArrayTable" />
     </data>
 </layout>

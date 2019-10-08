@@ -18,6 +18,7 @@ import com.example.task.R;
 import com.example.task.adapter.ForecastAdapter;
 import com.example.task.adapter.ForecastSingleAdapter;
 import com.example.task.dataBase.tables.ForecastArrayTable;
+import com.example.task.dataBase.tables.ForecastSingleArrayTable;
 import com.example.task.dataBase.tables.ForecastSingleTable;
 import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
@@ -38,24 +39,32 @@ public class ClimateShowActivity extends AppCompatActivity {
     private ActivityClimateShowBinding binding;
     private ForeCasteMain foreCasteMain;
     private WeatherMain weatherMain;
-    private int ADDRESS_VALUE, START_VALUE;
     private String date, day, time;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_climate_show);
-        final Intent intent = getIntent();
-        ADDRESS_VALUE = intent.getIntExtra(Constant.INTENT_CLIMATE_ADDRESS_SCREEN, 0);
-        START_VALUE = intent.getIntExtra(Constant.INTENT_CLIMATE_START_SCREEN, 0);
+        intent = getIntent();
+        Constant.ADDRESS_VALUE = intent.getIntExtra(Constant.INTENT_CLIMATE_ADDRESS_SCREEN, 0);
+        Constant.START_VALUE = intent.getIntExtra(Constant.INTENT_CLIMATE_START_SCREEN, 0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         /**
          * This is for the 1st time when data is not present in the dataBase
          */
-        if (ADDRESS_VALUE == Constant.INTENT_CLIMATE_ADDRESS_SCREEN_VALUE) {
+        if (Constant.ADDRESS_VALUE == Constant.INTENT_CLIMATE_ADDRESS_SCREEN_VALUE) {
             foreCasteMain = (ForeCasteMain) intent.getSerializableExtra(Constant.ADDRESS_TO_CLIMATE_FORECAST_KEY);
             weatherMain = (WeatherMain) intent.getSerializableExtra(Constant.ADDRESS_TO_CLIMATE_WEATHER_KEY);
 
+            /**
+             * All forecast data into dataBase
+             */
             ArrayList<ForecastArrayTable> forecastArrayTables = new ArrayList<>();
             for (int i = 0; i < foreCasteMain.getForecastObejctsModels().size(); i++) {
                 try {
@@ -91,6 +100,37 @@ public class ClimateShowActivity extends AppCompatActivity {
             ForecastTable forecastTable = new ForecastTable();
             forecastTable.setForecastArrayTables(forecastArrayTables);
 
+            /**
+             * Checking for the forecast of eack 1st index
+             */
+            ArrayList<ForecastSingleArrayTable> forecastSingleArrayTables = new ArrayList<>();
+            for (int days = 0; days < forecastTable.getForecastArrayTables().size(); days++) {
+                try {
+                    if (!forecastTable.getForecastArrayTables().get(days).getDay().
+                            equals(forecastTable.getForecastArrayTables().get(days + 1).getDay())) {
+
+                        ForecastSingleArrayTable forecastSingleArrayTable = new ForecastSingleArrayTable();
+                        forecastSingleArrayTable.setDate(forecastTable.getForecastArrayTables().get(days).getDate());
+                        forecastSingleArrayTable.setDay(forecastTable.getForecastArrayTables().get(days).getDay());
+                        forecastSingleArrayTable.setIcon(forecastTable.getForecastArrayTables().get(days).getIcon());
+                        forecastSingleArrayTable.setTempMax(forecastTable.getForecastArrayTables().get(days).getTempMax());
+                        forecastSingleArrayTable.setTempMin(forecastTable.getForecastArrayTables().get(days).getTempMin());
+                        forecastSingleArrayTables.add(forecastSingleArrayTable);
+                    }
+                } catch (IndexOutOfBoundsException i) {
+                }
+            }
+
+            ForecastSingleTable forecastSingleTable = new ForecastSingleTable();
+            forecastSingleTable.setSingleArrayTables(forecastSingleArrayTables);
+            List<ForecastSingleTable> forecastSingleTables = new ArrayList<>();
+            forecastSingleTables.add(forecastSingleTable);
+
+            ForecastSingleAdapter forecastSingleAdapter = new ForecastSingleAdapter(forecastSingleTables);
+            binding.recyclerSingleView.setAdapter(forecastSingleAdapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ClimateShowActivity.this, RecyclerView.HORIZONTAL, false);
+            binding.recyclerSingleView.setLayoutManager(linearLayoutManager);
+
             WeatherTable weatherTable = new WeatherTable(weatherMain.getName(),
                     weatherMain.getWeatherModels().get(0).getIcon(),
                     weatherMain.getWeatherClimateModel().getTemp(),
@@ -106,13 +146,14 @@ public class ClimateShowActivity extends AppCompatActivity {
              */
             ForecastAdapter adapter = new ForecastAdapter(this, forecastArrayTables);
             binding.recyclerView.setAdapter(adapter);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            binding.recyclerView.setLayoutManager(linearLayoutManager);
+            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            binding.recyclerView.setLayoutManager(linearLayoutManager1);
 
             ClimateViewModel viewModel = ViewModelProviders.of(this).get(ClimateViewModel.class);
             viewModel.insertWeatherData(getApplication());
             viewModel.insertWeatherData(weatherTable);
             viewModel.insertForcastData(forecastTable);
+            viewModel.insertForecastSingleData(forecastSingleTable);
 
             /**
              * This is setting for setting the data into xml
@@ -154,7 +195,7 @@ public class ClimateShowActivity extends AppCompatActivity {
         /**
          * This is for the 2nd times when data is present in the dataBase
          */
-        else if (START_VALUE == Constant.INTENT_CLIMATE_START_SCREEN_VALUE) {
+        else if (Constant.START_VALUE == Constant.INTENT_CLIMATE_START_SCREEN_VALUE) {
             CheckDataViewModel viewModel = ViewModelProviders.of(this).get(CheckDataViewModel.class);
             viewModel.getWeatherTableLiveData(getApplication());
             viewModel.getForecastTableLiveData(getApplication());
@@ -248,5 +289,4 @@ public class ClimateShowActivity extends AppCompatActivity {
 
         }
     }
-
 }
