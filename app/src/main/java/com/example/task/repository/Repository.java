@@ -87,7 +87,6 @@ public class Repository {
 
             @Override
             public void onFailure(Call<WeatherMain> call, Throwable t) {
-                int i = 0;
             }
         });
         return weatherModelMutableLiveData;

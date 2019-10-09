@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.task.BasicUtality.BasicFunction;
@@ -24,9 +25,12 @@ import com.example.task.dataBase.tables.ForecastTable;
 import com.example.task.dataBase.tables.WeatherTable;
 import com.example.task.databinding.ActivityClimateShowBinding;
 import com.example.task.model.ForeCasteMain;
+import com.example.task.model.Places;
 import com.example.task.model.WeatherClimateModel;
 import com.example.task.model.WeatherMain;
 import com.example.task.model.WeatherModel;
+import com.example.task.viewModel.AddressScreenViewModel;
+import com.example.task.viewModel.AddressScreenViewModelFactory;
 import com.example.task.viewModel.CheckDataViewModel;
 import com.example.task.viewModel.ClimateViewModel;
 
@@ -190,6 +194,16 @@ public class ClimateShowActivity extends AppCompatActivity {
                     startActivityForResult(intentResult, Constant.INTENT_RESULT_CODE);
                 }
             });
+
+            /**
+             * onSwipe
+             */
+            binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    weatherRefreshTask(binding.actvCity.getText().toString());
+                }
+            });
         }
 
         /**
@@ -287,6 +301,48 @@ public class ClimateShowActivity extends AppCompatActivity {
                 }
             });
 
+            binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    weatherRefreshTask(binding.actvCity.getText().toString());
+                }
+            });
         }
+    }
+
+    /**
+     * THis is the function is used to refresh the data of weather only on swipe
+     */
+    private void weatherRefreshTask(String cityName) {
+        Places places = new Places();
+        places.setPlace(cityName);
+        AddressScreenViewModelFactory addressScreenViewModelFactory =
+                new AddressScreenViewModelFactory(ClimateShowActivity.this, places);
+
+        AddressScreenViewModel addressScreenViewModel = ViewModelProviders.of(this, addressScreenViewModelFactory).get(AddressScreenViewModel.class);
+        addressScreenViewModel.getweather(cityName);
+        addressScreenViewModel.getWeatherData().observe(this, new Observer<WeatherMain>() {
+            @Override
+            public void onChanged(WeatherMain weatherMain) {
+                binding.swipeRefresh.setRefreshing(false);
+
+                binding.setWeatherModel(weatherMain);
+                binding.setWeather(weatherMain.getWeatherModels().get(0));
+
+                binding.setTemp(String.format(Constant.STRING_FORMATE,
+                        BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTemp())) + (char) 0x00B0);
+
+                binding.setTempMin(String.format(Constant.STRING_FORMATE,
+                        BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMin())) + (char) 0x00B0);
+
+                binding.setTempMax(String.format(Constant.STRING_FORMATE,
+                        BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMax())) + (char) 0x00B0);
+
+                Glide.with(ClimateShowActivity.this)
+                        .load(Constant.PIC + weatherMain.getWeatherModels().get(0).getIcon() + Constant.FORMATE)
+                        .placeholder(R.drawable.ic_cloud_computing).
+                        into(binding.acivWeatherIcon);
+            }
+        });
     }
 }
