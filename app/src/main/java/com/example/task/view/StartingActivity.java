@@ -34,12 +34,16 @@ public class StartingActivity extends AppCompatActivity {
             public void onChanged(List<WeatherTable> weatherTables) {
                 if (weatherTables.size() == 0) {
                     checkDataViewModel.sendLiveData().removeObserver(this);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, new AddressFragment()).commit();
+                    getSupportFragmentManager()
+                            .beginTransaction().replace(R.id.container, new AddressFragment())
+                            .addToBackStack(null)
+                            .commit();
                 } else if (weatherTables.size() > 0) {
                     checkDataViewModel.sendLiveData().removeObserver(this);
                     Intent intent = new Intent(StartingActivity.this, ClimateShowActivity.class);
                     intent.putExtra(Constant.INTENT_CLIMATE_START_SCREEN, Constant.INTENT_CLIMATE_START_SCREEN_VALUE);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

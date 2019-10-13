@@ -1,8 +1,13 @@
 package com.example.task.view;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -29,6 +34,7 @@ import com.example.task.model.Places;
 import com.example.task.model.WeatherClimateModel;
 import com.example.task.model.WeatherMain;
 import com.example.task.model.WeatherModel;
+import com.example.task.services.WeatherService;
 import com.example.task.viewModel.AddressScreenViewModel;
 import com.example.task.viewModel.AddressScreenViewModelFactory;
 import com.example.task.viewModel.CheckDataViewModel;
@@ -43,7 +49,7 @@ public class ClimateShowActivity extends AppCompatActivity {
     private ActivityClimateShowBinding binding;
     private ForeCasteMain foreCasteMain;
     private WeatherMain weatherMain;
-    private String date, day, time;
+    private String date, day, time, cityNameCurrent;
     private Intent intent;
 
     @Override
@@ -135,7 +141,7 @@ public class ClimateShowActivity extends AppCompatActivity {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ClimateShowActivity.this, RecyclerView.HORIZONTAL, false);
             binding.recyclerSingleView.setLayoutManager(linearLayoutManager);
 
-            WeatherTable weatherTable = new WeatherTable(weatherMain.getName(),
+            final WeatherTable weatherTable = new WeatherTable(weatherMain.getName(),
                     weatherMain.getWeatherModels().get(0).getIcon(),
                     weatherMain.getWeatherClimateModel().getTemp(),
                     weatherMain.getWeatherClimateModel().getTempMin(),
@@ -204,6 +210,32 @@ public class ClimateShowActivity extends AppCompatActivity {
                     weatherRefreshTask(binding.actvCity.getText().toString());
                 }
             });
+
+            /**
+             * Take the data from database
+             */
+            CheckDataViewModel viewModelCheck = ViewModelProviders.of(this).get(CheckDataViewModel.class);
+            viewModelCheck.getWeatherTableLiveData(getApplication());
+            viewModelCheck.listLiveData.observe(this, new Observer<List<WeatherTable>>() {
+                @Override
+                public void onChanged(final List<WeatherTable> weatherTables) {
+                    if (weatherTable != null) {
+                        /**
+                         * This is for background services
+                         */
+                        weatherContinoue();
+                        Constant.UPDATELIVE.observe(ClimateShowActivity.this, new Observer<Boolean>() {
+                            @Override
+                            public void onChanged(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    weatherRefreshTask(weatherTables.get(0).getCity());
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
         }
 
         /**
@@ -223,6 +255,7 @@ public class ClimateShowActivity extends AppCompatActivity {
                 public void onChanged(List<WeatherTable> weatherTables) {
                     if (weatherTables != null) {
 
+                        String cityname = weatherTables.get(0).getCity();
                         final WeatherMain weatherMain = new WeatherMain();
                         weatherMain.setName(weatherTables.get(0).getCity());
 
@@ -267,6 +300,18 @@ public class ClimateShowActivity extends AppCompatActivity {
                             }
                         });
 
+                        /**
+                         * This is for auto refresh
+                         */
+                        weatherContinoue();
+                        Constant.UPDATELIVE.observe(ClimateShowActivity.this, new Observer<Boolean>() {
+                            @Override
+                            public void onChanged(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    weatherRefreshTask(weatherMain.getName());
+                                }
+                            }
+                        });
                     }
                 }
             });
@@ -311,6 +356,38 @@ public class ClimateShowActivity extends AppCompatActivity {
     }
 
     /**
+     * This is the function is used for refreshing the weather data continoue for every five min
+     */
+    private void weatherContinoue() {
+        /**
+         * Set job info
+         */
+        final ComponentName componentName = new ComponentName(this, WeatherService.class);
+        JobInfo jobInfo = new JobInfo.Builder(Constant.JOB_NUMBER, componentName)
+//                .setRequiresCharging(false)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .setPeriodic(15 * 60 * 1000)
+                .build();
+
+        /**
+         * Now schedule the job according the task
+         */
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(jobInfo);
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(Constant.JOB_NUMBER);
+        Log.d("finshed", "finished");
+    }
+
+    /**
      * THis is the function is used to refresh the data of weather only on swipe
      */
     private void weatherRefreshTask(String cityName) {
@@ -324,25 +401,35 @@ public class ClimateShowActivity extends AppCompatActivity {
         addressScreenViewModel.getWeatherData().observe(this, new Observer<WeatherMain>() {
             @Override
             public void onChanged(WeatherMain weatherMain) {
-                binding.swipeRefresh.setRefreshing(false);
+                if (weatherMain != null) {
+                    binding.swipeRefresh.setRefreshing(false);
 
-                binding.setWeatherModel(weatherMain);
-                binding.setWeather(weatherMain.getWeatherModels().get(0));
+                    binding.setWeatherModel(weatherMain);
+                    binding.setWeather(weatherMain.getWeatherModels().get(0));
 
-                binding.setTemp(String.format(Constant.STRING_FORMATE,
-                        BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTemp())) + (char) 0x00B0);
+                    binding.setTemp(String.format(Constant.STRING_FORMATE,
+                            BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTemp())) + (char) 0x00B0);
 
-                binding.setTempMin(String.format(Constant.STRING_FORMATE,
-                        BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMin())) + (char) 0x00B0);
+                    binding.setTempMin(String.format(Constant.STRING_FORMATE,
+                            BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMin())) + (char) 0x00B0);
 
-                binding.setTempMax(String.format(Constant.STRING_FORMATE,
-                        BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMax())) + (char) 0x00B0);
+                    binding.setTempMax(String.format(Constant.STRING_FORMATE,
+                            BasicFunction.getCelcius(weatherMain.getWeatherClimateModel().getTempMax())) + (char) 0x00B0);
 
-                Glide.with(ClimateShowActivity.this)
-                        .load(Constant.PIC + weatherMain.getWeatherModels().get(0).getIcon() + Constant.FORMATE)
-                        .placeholder(R.drawable.ic_cloud_computing).
-                        into(binding.acivWeatherIcon);
+                    Glide.with(ClimateShowActivity.this)
+                            .load(Constant.PIC + weatherMain.getWeatherModels().get(0).getIcon() + Constant.FORMATE)
+                            .placeholder(R.drawable.ic_cloud_computing).
+                            into(binding.acivWeatherIcon);
+
+                    Toast.makeText(ClimateShowActivity.this, "Weather data is refresh", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }

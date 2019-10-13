@@ -68,14 +68,15 @@ public class BasicFunction {
      * @throws ParseException
      */
     public static String getDateFromDateTime(String dateTime) throws ParseException {
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date date = dt.parse(dateTime);
-        SimpleDateFormat dt1 = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+        SimpleDateFormat dt1 = new SimpleDateFormat("MMM dd,yyyy", Locale.ENGLISH);
         return String.valueOf(dt1.format(date));
     }
 
     /**
      * This is the function is used to get the time from the date time in java
+     *
      * @param dateTime
      * @return
      * @throws ParseException

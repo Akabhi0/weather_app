@@ -1,5 +1,7 @@
 package com.example.task.BasicUtality;
 
+import androidx.lifecycle.MutableLiveData;
+
 public class Constant {
 
     public static String BASE_URL = "http://api.openweathermap.org/data/2.5/";
@@ -16,9 +18,17 @@ public class Constant {
     public static int INTENT_CLIMATE_START_SCREEN_VALUE = 12;
     public static int INTENT_CLIMATE_ADDRESS_SCREEN_VALUE = 13;
     public static int INTENT_RESULT_CODE = 1;
-    public static String INTENT_RETURN = "return_back";
-
+    public static int JOB_NUMBER = 1;
     public static int START_VALUE = 0;
     public static int ADDRESS_VALUE = 0;
 
+    public static MutableLiveData<Boolean> UPDATELIVE = new MutableLiveData<>();
+
+    public static MutableLiveData<Boolean> getBooleanMutableLiveData() {
+        return UPDATELIVE;
+    }
+
+    public static void setBooleanMutableLiveData(Boolean booleanMutableLiveData) {
+        Constant.UPDATELIVE.setValue(booleanMutableLiveData);
+    }
 }

@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -164,6 +165,8 @@ public class NewAddressActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
+                                } else if (weatherMain == null) {
+                                    Toast.makeText(NewAddressActivity.this, "incorrect city name", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

@@ -82,7 +82,11 @@ public class Repository {
         RetroFitConnectionClass.getApiCall().getWeatherApp(places).enqueue(new Callback<WeatherMain>() {
             @Override
             public void onResponse(Call<WeatherMain> call, Response<WeatherMain> response) {
-                weatherModelMutableLiveData.setValue(response.body());
+                if (response.body() == null) {
+                    weatherModelMutableLiveData.setValue(null);
+                } else {
+                    weatherModelMutableLiveData.setValue(response.body());
+                }
             }
 
             @Override

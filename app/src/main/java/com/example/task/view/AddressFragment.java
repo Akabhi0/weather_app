@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,7 +57,6 @@ public class AddressFragment extends Fragment {
                             @Override
                             public void onChanged(final WeatherMain weatherMain) {
                                 if (weatherMain != null) {
-
                                     viewModel.getForecaste(places.getPlace());
                                     viewModel.getForcasteData().observe(getActivity(), new Observer<ForeCasteMain>() {
                                         @Override
@@ -70,6 +70,8 @@ public class AddressFragment extends Fragment {
                                             }
                                         }
                                     });
+                                } else if (weatherMain == null) {
+                                    Toast.makeText(getContext(), "city name is incorrect", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
